@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.logpage {
+    position: fixed;
+    top: 70px;
+    left: 32%;
+    width: 500px;
+    height: 216px;
+    margin: 0 auto;
+    border: 2px solid grey;
+    border-radius: 12px;
+    background-color: white;
+}
+
+.loghead {
+    background:  #43a06d;
+    padding: 10px;
+    color: whitesmoke;
+    font-weight: 0;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.loghead h2 {
+    margin: 0 auto;
+}
+
+.form-control {
+    width: 100%;
+    margin: 5px 0 10px;
+    border: 1px solid #43a06d;
+    border-radius: 7px;
+    outline:none;
+    padding: 5px 10px;
+}
+
+.leftside {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.logbody {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.login {
+    width: 400px;
+    padding: 15px ;
+}
+
+button {
+    border-radius: 5px;
+    background: grey;
+    border: 0;
+    color: whitesmoke;
+    padding: 5px 15px;
+    margin-left: 35%;
+    outline:none;
+    transition: all 0.8s ease
+}
+
+button:hover {
+    cursor: pointer;
+    background: #43a06d;
+    transform: scale(1.1)
+}
+
+#exit-block {
+    cursor: pointer;
+}
+
+.exit {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: whitesmoke;
+    transform: rotate(45deg) translateY(8px);
+    position: relative;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+.exit::after {
+    content: "";
+    position: absolute;
+    width: 25px;
+    height: 3px;
+    background: whitesmoke;
+    transform: rotate(-90deg);
+    border-radius: 3px
+}
