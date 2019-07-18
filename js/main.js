@@ -1,0 +1,97 @@
+// https://fea13-alex.glitch.me/users
+// https://fea13-alex.glitch.me/content
+// https://fea13-alex.glitch.me/informa
+
+
+const main = document.getElementsByTagName("main")[0]
+main.openLogPage = document.getElementById("sign-in")
+main.openRegPage = document.getElementById("sign-up")
+main.logOutButton = document.getElementById("sign-out")
+main.openUserAccount = document.getElementById("cabinet")
+main.openPageContent = document.getElementById("page-content")
+
+
+main.getCookie = function() {
+    function getCookies () {
+        var res = document.cookie.split ( "; " ).map (
+            x =>  {
+                var tmp = x.split ( "=" )
+                var elem = {}
+                elem [ tmp [0] ] = tmp [1]
+                return elem
+            })
+        return Object.assign ( {}, ...res )
+    }
+    main.cookieObj = getCookies()
+    if (main.cookieObj.userId && main.cookieObj.hash) {
+        async function getUser() {
+            let response = await fetch(`https://fea13-alex.glitch.me/users/${main.cookieObj.userId}`)
+            let user = await response.json()
+            if (`hash=${main.cookieObj.hash}` === user.userPassword){
+                main.currentUser = {
+                    name: user.name,
+                    id: user.id,
+                    photo: user.avatar
+                }
+                console.log("curUser", main.currentUser)
+                main.openUserAccount.style.display = "inline"
+                main.openLogPage.style.display = "none"
+                main.openRegPage.style.display = "none"
+                main.logOutButton.style.display = "inline"
+            }
+        }
+        getUser()
+    } else {
+        this.openUserAccount.style.display = "none"
+        this.logOutButton.style.display = "none"
+        this.openRegPage.style.display = "inline"
+        this.openLogPage.style.display = "inline"
+    }
+}
+main.getCookie()
+
+// main.openUserAccount.onclick = function (event) {
+//     const userAccount = document.createElement("user-account")
+//     document.body.style.overflow = 'hidden'
+//     this.appendChild(userAccount)
+// }.bind(main)
+
+main.logOutButton.onclick = function (event) {
+    const yesNoMenu = document.createElement("yes-no")
+    document.body.style.overflow = 'hidden'
+    this.appendChild(yesNoMenu)
+}.bind(main)
+
+main.openRegPage.onclick = function (event) {
+    const regPage = document.createElement("register-page")
+    regPage.setAttribute("markup", "components/registration/registration.html")
+    document.body.style.overflow = 'hidden'
+    this.appendChild(regPage)
+}.bind(main)
+
+main.openLogPage.onclick = function (event) {
+    const logPage = document.createElement("log-page")
+    logPage.setAttribute("markup", "components/login/login.html")
+    document.body.style.overflow = 'hidden'
+    this.appendChild(logPage)
+}.bind(main)
+
+main.openPageContent.onclick = openPageContent
+function openPageContent(event) {
+    const contentPage = document.createElement("content-page")
+    contentPage.setAttribute("markup", "components/content/content.html")
+    main.innerHTML = ""
+    main.appendChild(contentPage)
+    location.hash = "home"
+}
+openPageContent()
+
+main.addEventListener("new-user", createCurrentUser)
+
+function createCurrentUser (event) {
+    main.currentUser = {
+        name: event.userData.name,
+        id: event.userData.id,
+        photo: event.userData.avatar
+    }
+}

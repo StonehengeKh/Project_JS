@@ -1,17 +1,27 @@
-.cards {
-    text-align: center;
-    width: 200px;
+.card {
+    width: 230px;
+    height: 320px;
     padding: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    flex-wrap: wrap;
-    margin: 50px auto 0;
+    align-items: center;
+    margin: 20px;
+    border: 2px solid grey;
+    border-radius: 20px;
 }
 
-.card {
-    border: 3px solid #939393;
-    width: 383px;
-    display: flex;
-    margin-bottom: 50px;
-    padding: 25px;
-    position: relative;
+.image {
+    width: 210px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.title-card {
+
+}
+
+.text-card {
+
+}
+

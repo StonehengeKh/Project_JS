@@ -6,17 +6,17 @@
 .logpage {
     position: fixed;
     top: 70px;
-    left: 32%;
-    width: 500px;
-    height: 216px;
-    margin: 0 auto;
-    border: 2px solid grey;
-    border-radius: 12px;
-    background-color: white;
+    left: 50%;
+    width: 310px;
+    height: 310px;
+    margin-left: -155px;
+    border: 2px solid white;
+    border-radius: 50%;
+    background-color: black;
+    z-index: 25;
 }
 
 .loghead {
-    background:  #43a06d;
     padding: 10px;
     color: whitesmoke;
     font-weight: 0;
@@ -26,20 +26,21 @@
 }
 
 .loghead h2 {
-    margin: 0 auto;
+    margin: 30px auto 0 110px;
 }
 
 .form-control {
-    width: 100%;
+    width: 90%;
     margin: 5px 0 10px;
-    border: 1px solid #43a06d;
+    border: 1px solid orangered;
     border-radius: 7px;
-    outline:none;
+    outline: none;
     padding: 5px 10px;
 }
 
 .leftside {
     width: 100%;
+    margin-left: 15px;
     display: flex;
     justify-content: center;
 }
@@ -53,17 +54,27 @@
 .login {
     width: 400px;
     padding: 15px ;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    color: white;
 }
 
 button {
-    border-radius: 5px;
-    background: grey;
-    border: 0;
-    color: whitesmoke;
-    padding: 5px 15px;
-    margin-left: 35%;
-    outline:none;
-    transition: all 0.8s ease
+    border-radius: 50%;
+    background: white;
+    border: 2px solid orangered;
+    width: 88px;
+    height: 88px;
+    padding: 2px 15px;
+    margin-left: 30%;
+    outline: none;
+    transition: all 0.8s ease;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 button:hover {
@@ -80,11 +91,12 @@ button:hover {
     display: block;
     width: 25px;
     height: 3px;
-    background: whitesmoke;
+    background: white;
     transform: rotate(45deg) translateY(8px);
     position: relative;
     border-radius: 3px;
-    margin-top: 5px;
+    margin-top: 35px;
+    margin-right: 50px;
 }
 
 .exit::after {
@@ -92,7 +104,15 @@ button:hover {
     position: absolute;
     width: 25px;
     height: 3px;
-    background: whitesmoke;
+    background: white;
     transform: rotate(-90deg);
     border-radius: 3px
+}
+
+h5 {
+    color: red;
+    font-size: 20px;
+    position: absolute;
+    top: -10px;
+    left: 75px;
 }

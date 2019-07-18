@@ -32,7 +32,7 @@ header {
 .logo {
     width: 250px;
     height: 250px;
-    border-radius: 500px;
+    border-radius: 50%;
     background-color: black;
     display: flex;
 }
@@ -54,7 +54,6 @@ header {
 .navigation {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
 }
 
 .list {
@@ -62,8 +61,17 @@ header {
     flex-direction: row;
 }
 
-.first-list {
+.menu-list {
     margin-right: 50px;
+}
+
+.user-list {
+    display: none;
+}
+
+.small-avatar {
+    width: 40px;
+    margin-top: -12px;
 }
 
 .navigation a {

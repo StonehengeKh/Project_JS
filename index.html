@@ -11,15 +11,20 @@
 <body>
 <header class="container container_head">
     <nav class="navigation">
-        <ul class="list first-list">
-            <li class="list_nav"><a href="#" id="pageContent" onclick="openPageContent()">Home page</a></li>
-            <li class="list_nav"><a href="#" id="cabinet" onclick="openCabinetPage()">My cabinet</a></li>
-            <li class="list_nav"><a href="#" id="aboutUs" onclick="openAboutUsPage()">About us</a></li>
-            <li class="list_nav"><a href="#" id="contacts" onclick="openContactsPage()">Contacts</a></li>
+        <ul class="list menu-list">
+            <li class="list_nav"><a href="#" id="page-content">Home page</a></li>
+            <li class="list_nav"><a href="#" id="cabinet">My cabinet</a></li>
+            <li class="list_nav"><a href="#" id="about-us">About us</a></li>
+            <li class="list_nav"><a href="#" id="contacts">Contacts</a></li>
         </ul>
-        <ul class="list">
+        <ul class="list entry-list">
             <li class="list_nav"><a href="#" id="sign-in">Sign In</a></li>
             <li class="list_nav"><a href="#" id="sign-up">Sign Up</a></li>
+        </ul>
+        <ul id="nav-user" class="list user-list">
+            <li class="list_nav"><a href="#" id="small-avatar"><img src="" class="small-avatar" alt="Small avatar"></a></li>
+            <li class="list_nav"><a href="#" id="head-user-name">Name</a></li>
+            <li class="list_nav"><a href="#" id="sign-out">Sign Out</a></li>
         </ul>
     </nav>
 
@@ -32,27 +37,17 @@
 
     <div></div>
 </header>
-<main class="container">
-    <section class="content">
-        <div id="pageContentShow"></div>
-        <div id="cabinetShow"></div>
-        <div id="aboutUsShow"></div>
-        <div id="contactsShow"></div>
-        <div id="loginShow"></div>
-        <div id="registrationShow"></div>
-    </section>
-    <section>
-        <div class="map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d97671.27763495264!2d36.23493782188574!3d49.98057777023481!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2sua!4v1562744143869!5m2!1sru!2sua" width="100%" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
-        </div>
-    </section>
+<main class="container content">
+
 </main>
 <footer class="container">
     <address>
         <p> © Copyright 2013 Css Author, All Rights Reserved. </p>
     </address>
 </footer>
+    <script src="./components/login/login.js"></script>
     <script src="./components/registration/registration.js"></script>
-    <script src="./js/index.js"></script>
+    <script src="./components/content/content.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>

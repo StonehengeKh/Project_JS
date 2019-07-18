@@ -1,50 +1,91 @@
 class LogPage extends HTMLElement {
     constructor() {
         super()
-        this.shadow = this.attachShadow({
-            mode: "open"
-        })
+        this.shadow = this.attachShadow({ mode: "closed" })
     }
-
-    static get observedAttributes() {
-        return ["markup", "css"]
-    }
-
     connectedCallback() {
-        this.setAttribute("markup", "./components/login/login.html")
-        this.setAttribute("css", "./components/login/login.css")
     }
-
+    static get observedAttributes() {
+        return ["markup"]
+    }
     attributeChangedCallback(attrName, oldVal, newVal) {
-        fetch(newVal).then(response => response.text())
-            .then(response => {
-                if (attrName === "markup") {
-                    let scripts = this.shadow.innerHTML.split("<script>").length === 1 ?
-                        "" : this.shadow.innerHTML.split("<script>")[1].split("</script>")[0]
-                    let styles = this.shadow.innerHTML.split("<style>").length === 1 ?
-                        "" : this.shadow.innerHTML.split("<style>")[1].split("</style>")[0]
-                    this.shadow.innerHTML = response + `<style> ${styles} </style>` + scripts
-                }
-                if (attrName === "css") {
-                    let html = this.shadow.innerHTML.split("<style>")
-                    let end = html.length === 1 ? "" : html[1].split("</style>")[1]
-                    this.shadow.innerHTML = html[0] + `<style> ${response}</style>` + end
-                }
-            }).then(res => this.getData())
+        let html = this.shadow
+        let getValues = this.getData.bind(this)
+        async function setAttrs(newVal, html, getValues) {
+            let resp =  await  Promise.all([
+                fetch(newVal)
+                    .then(response => response.text()),
+                fetch(`components/registration/registration.css`)
+                    .then(response => response.text())
+            ])
+            html.innerHTML = await resp[0];
+            html.appendChild(document.createElement("style")).textContent = await resp[1];
+            await getValues()
+        }
+        setAttrs(newVal, html, getValues)
     }
     getData () {
-        this.exitBlock = this.shadow.querySelector("#exit-block")
-        this.userEmail = this.shadow.querySelector("#input-email")
-        this.userPassword = this.shadow.querySelector("#input-password")
-        this.button = this.shadow.querySelector("#register-button")
+        this.userEmail = this.shadow.getElementById("#input-email")
+        this.userPassword = this.shadow.getElementById("#input-password")
+        this.button = this.shadow.getElementById("#log-button")
+        this.errorSpace = this.shadow.getElementById("#err")
+        this.button.disabled = true
 
-        this.errorMessages = this.shadow.querySelector("#err")
+        this.userPassword.onchange = function (event) {
+            document.cookie = `hash=${Sha256.hash(event.target.value)}`
+            event.target.valid = event.target.value.length >= 6
+            if (this.userPassword.valid && this.userEmail.valid){
+                this.button.disabled = false
+            }
+        }.bind(this)
 
+        this.userEmail.onchange = function (event) {
+            event.target.valid = event.target.value.length >= 5 && event.target.value.indexOf("@") > 0
+            if (this.userPassword.valid && this.userEmail.valid){
+                this.button.disabled = false
+            }
+        }.bind(this)
 
-        this.exitBlock.onclick = function (event) {
-            LogPage.remove()
-        }
+        this.shadow.getElementById("#exit-block").onclick = function(event) {
+            this.remove()
+            document.body.style.overflow = 'auto'
+        }.bind(this)
+        this.button.onclick = function (event) {
+            let email = this.userEmail.value
+            let pass = Sha256.hash(this.userPassword.value)
+            let err = this.errorSpace
+            let window = this
+            async function userDates(email, pass) {
+                let response = await fetch("https://fea13-alex.glitch.me/users")
+                let arrayOfObj = await response.json()
+                let currentUser = arrayOfObj.find( function(user) {
+                    return user.email === email})
+                if (currentUser) {
+                    if(currentUser.userPassword === `hash=${pass}`) {
+                        document.cookie =`userId=${currentUser.id}`
+                        err.innerHTML = ""
+                        document.getElementById("sing-up").style.display = "none"
+                        document.getElementById("sing-in").style.display = "none"
+                        document.getElementById("log-out").style.display = "inline"
+                        document.getElementById("head-user-name").style.display = "inline"
+                        document.getElementById("small-avatar").style.display = "inline"
+                        let event = new Event("new-user")
+                        event.userData = currentUser
+                        main.dispatchEvent(event)
+                        window.remove()
+                        document.body.style.overflow = 'auto'
+                    }
+                    else {
+                        err.innerHTML = "Wrong password"
+                    }
+                }
+                else {
+                    err.innerHTML = "Wrong email"
+                }
+            }
+            userDates(email, pass)
+        }.bind(this)
     }
-
 }
+
 customElements.define("log-page", LogPage)
