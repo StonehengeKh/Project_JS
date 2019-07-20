@@ -7,6 +7,7 @@ class ContentPage extends HTMLElement {
     }
 
     connectedCallback() {
+        // this.getData()
     }
 
     static get observedAttributes() {
@@ -16,8 +17,9 @@ class ContentPage extends HTMLElement {
     attributeChangedCallback(attrName, oldVal, newVal) {
         let html = this.shadow
         let getValues = this.getData.bind(this)
+        let getDatas = this.getData.bind(this)
         async function setAttrs(newVal, html, getValues) {
-            let resp =  await  Promise.all([
+            let resp =  await Promise.all([
                 fetch(newVal)
                     .then(response => response.text()),
                 fetch(`components/content/content.css`)
@@ -26,15 +28,17 @@ class ContentPage extends HTMLElement {
             html.innerHTML = await resp[0];
             html.appendChild(document.createElement("style")).textContent = await resp[1];
             await getValues()
+            await getDatas()
         }
         setAttrs(newVal, html, getValues)
     }
 
-
     getData () {
         this.titleCards = this.shadow.querySelector("#title-add-data")
         this.textCards = this.shadow.querySelector("#name-add-text")
+        this.textCards.disabled = true
         this.photoCards = this.shadow.querySelector("#name-add-photo")
+        this.photoCards.disabled = true
         this.btnCards = this.shadow.querySelector("#add-data-btn")
         this.errorSpace = this.shadow.querySelector("#error")
 
@@ -42,55 +46,62 @@ class ContentPage extends HTMLElement {
             event.target.valid = event.target.value.length > 2
             if(event.target.valid) {
                 this.errorSpace.innerHTML = ""
-                this.userEmail.disabled = false
+                this.textCards.disabled = false
             } else {
                 this.errorSpace.innerHTML = "Enter correct title"
-                this.userEmail.disabled = true
+                this.textCards.disabled = true
             }
         }.bind(this)
 
+        this.textCards.onchange = function ( event ) {
+            event.target.valid = event.target.value.length > 10
+            if(event.target.valid) {
+                this.errorSpace.innerHTML = ""
+                this.photoCards.disabled = false
+            } else {
+                this.errorSpace.innerHTML = "Enter correct title"
+                this.photoCards.disabled = true
+        }}.bind(this)
+
         this.photoCards.onchange = function ( event ) {
+            let reader = new FileReader
             let photo = event.target.files[0]
+            reader.readAsDataURL(photo)
             if ( photo.type.indexOf( "image" ) === -1 ) {
                 this.errorSpace.innerHTML = "Wrong type of file"
-                this.userPhoto.valid = false
+                this.photoCards.valid = false
             }
             if (photo.type.indexOf ( "image" ) === 0 && photo.size > 500000 ) {
                 this.errorSpace.innerHTML = "Image size is too big"
-                this.userPhoto.valid = false
+                this.photoCards.valid = false
             }
             if (photo.type.indexOf ( "image" ) === 0 && photo.size <= 500000 ) {
+                reader.onload = function (ev) {
+                    this.preview.src = ev.target.result
+                }.bind(this)
                 this.errorSpace.innerHTML = ""
                 let picture = URL.createObjectURL ( photo )
                 this.preview.style.display = "block"
                 this.preview.src = btoa(picture)
-                this.userPhoto.valid = true
-                if(this.checkPassword.valid && this.userPhoto.valid && this.userName.valid) {
+                this.photoCards.valid = true
+                if(this.photoCards.valid && this.titleCards.valid) {
                     this.button.disabled = false
-                    this.button.style.background = "#43a06d"
-                    this.button.innerHTML = "Register"
                 } else {
                     this.button.disabled = true
                 }
             }
         }.bind(this)
 
-        this.textCards.onchange = function ( event ) {
-            event.target.valid = event.target.value.length > 20
-        }.bind(this)
-
         this.btnCards.onclick = function (event) {
-            this.button.remove()
             fetch("https://fea13-alex.glitch.me/content", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    name: this.userName.value,
-                    email: this.userEmail.value,
-                    avatar: this.preview.src,
-                    userPassword: `hash=${Sha256.hash(this.userPassword.value)}`
+                    title: this.titleCards.value,
+                    text: this.textCards.value,
+                    photo: this.photoCards.src
                 })
             }).then(
                 response => response.json())
@@ -104,13 +115,6 @@ class ContentPage extends HTMLElement {
             this.remove()
             document.body.style.overflow = 'auto'
         }.bind(this)
-
-        this.shadow.querySelector("#exit-block").onclick = function(event) {
-            this.remove()
-            document.body.style.overflow = 'auto'
-        }.bind(this)
-
     }
-
 }
 customElements.define("content-page", ContentPage)

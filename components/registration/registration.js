@@ -30,7 +30,6 @@ class RegisterPage extends HTMLElement {
         setAttrs(newVal, html, getValues)
     }
 
-
     getData () {
         this.userName = this.shadow.querySelector("#input-name")
         this.userEmail = this.shadow.querySelector("#input-email")
@@ -95,8 +94,10 @@ class RegisterPage extends HTMLElement {
         }.bind(this)
 
         this.userPhoto.onchange = function ( event ) {
-//            this.preview.style.display = "none"
+            let reader = new FileReader
+            this.preview.style.display = "none"
             let photo = event.target.files[0]
+            reader.readAsDataURL(photo)
             if ( photo.type.indexOf( "image" ) === -1 ) {
                 this.errorSpace.innerHTML = "Wrong type of file"
                 this.preview.style.display = "none"
@@ -108,10 +109,12 @@ class RegisterPage extends HTMLElement {
                 this.userPhoto.valid = false
             }
             if (photo.type.indexOf ( "image" ) === 0 && photo.size <= 500000 ) {
+                reader.onload = function (ev) {
+                    this.preview.src = ev.target.result
+                }.bind(this)
                 this.errorSpace.innerHTML = ""
-                let picture = URL.createObjectURL ( photo )
+                this.picture = photo
                 this.preview.style.display = "block"
-                this.preview.src = btoa(picture)
                 this.userPhoto.valid = true
                 if(this.checkPassword.valid && this.userPhoto.valid && this.userName.valid) {
                     this.button.disabled = false
@@ -120,7 +123,8 @@ class RegisterPage extends HTMLElement {
                 } else {
                     this.button.disabled = true
                 }
-            }}.bind(this)
+            }
+        }.bind(this)
 
         this.userPassword.oninput = function ( event ) {
             let pass = event.target.value
@@ -171,7 +175,7 @@ class RegisterPage extends HTMLElement {
             document.getElementById("sign-in").style.display = "none"
             document.getElementById("log-out").style.display = "inline"
             document.getElementById("head-user-name").style.display = "inline"
-            document.getElementById("small-avatar").style.display = "inline"
+            document.getElementById("head-user-name").innerText = `${response.name}`
         }.bind(this)
 
         this.shadow.querySelector("#exit-block").onclick = function(event) {

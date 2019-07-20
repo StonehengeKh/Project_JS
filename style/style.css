@@ -65,18 +65,13 @@ header {
     margin-right: 50px;
 }
 
-.user-list {
-    display: none;
-}
-
 .small-avatar {
     width: 40px;
     margin-top: -12px;
 }
 
-.navigation a {
+.navigation span {
     color: black;
-    text-decoration: none;
     font-weight: bold;
 }
 

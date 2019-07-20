@@ -1,0 +1,51 @@
+.my-cabinet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.change-avatar {
+    display: none;
+}
+
+.img-ava {
+    border: 1px solid #43a06d;
+    border-radius: 7px;
+    cursor: pointer;
+    padding: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+
+.img-ava {
+    background-color: #43a06d;
+    color: white;
+}
+
+.form-control {
+    border: 1px solid #43a06d;
+    border-radius: 7px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 5px;
+    border: 1px solid #43a06d;
+    border-radius: 7px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #43a06d;
+}

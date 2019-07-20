@@ -68,18 +68,16 @@ class LogPage extends HTMLElement {
                         document.getElementById("sing-in").style.display = "none"
                         document.getElementById("log-out").style.display = "inline"
                         document.getElementById("head-user-name").style.display = "inline"
-                        document.getElementById("small-avatar").style.display = "inline"
+                        document.getElementById("head-user-name").innerText = `${response.name}`
                         let event = new Event("new-user")
                         event.userData = currentUser
                         main.dispatchEvent(event)
                         window.remove()
                         document.body.style.overflow = 'auto'
-                    }
-                    else {
+                    } else {
                         err.innerHTML = "Wrong password"
                     }
-                }
-                else {
+                } else {
                     err.innerHTML = "Wrong email"
                 }
             }

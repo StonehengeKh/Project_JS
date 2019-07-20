@@ -1,6 +1,6 @@
 .card {
-    width: 230px;
-    height: 320px;
+    width: 330px;
+    height: 420px;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -11,9 +11,13 @@
     border-radius: 20px;
 }
 
+.img-block {
+
+}
+
 .image {
-    width: 210px;
-    height: 150px;
+    width: 300px;
+    height: auto;
     border-radius: 10px;
 }
 
@@ -23,5 +27,24 @@
 
 .text-card {
 
+}
+
+.btn-card {
+    background-color: grey;
+    border: 2px solid grey;
+    width: 80px;
+    border-radius: 5px;
+    margin: 0 10px;
+    color: white;
+    text-transform: uppercase;
+    padding: 2px;
+}
+
+.btn-card:hover {
+    background-color: #43a06d;
+}
+
+.btn-block {
+    display: flex;
 }
 

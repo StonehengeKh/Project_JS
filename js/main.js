@@ -6,6 +6,7 @@
 const main = document.getElementsByTagName("main")[0]
 main.openLogPage = document.getElementById("sign-in")
 main.openRegPage = document.getElementById("sign-up")
+main.openLogName = document.getElementById("head-user-name")
 main.logOutButton = document.getElementById("sign-out")
 main.openUserAccount = document.getElementById("cabinet")
 main.openPageContent = document.getElementById("page-content")
@@ -38,6 +39,7 @@ main.getCookie = function() {
                 main.openLogPage.style.display = "none"
                 main.openRegPage.style.display = "none"
                 main.logOutButton.style.display = "inline"
+                main.openLogName.style.display = "inline"
             }
         }
         getUser()
@@ -46,20 +48,27 @@ main.getCookie = function() {
         this.logOutButton.style.display = "none"
         this.openRegPage.style.display = "inline"
         this.openLogPage.style.display = "inline"
+        this.openLogName.style.display = "none"
     }
 }
 main.getCookie()
 
-// main.openUserAccount.onclick = function (event) {
-//     const userAccount = document.createElement("user-account")
-//     document.body.style.overflow = 'hidden'
-//     this.appendChild(userAccount)
-// }.bind(main)
-
 main.logOutButton.onclick = function (event) {
-    const yesNoMenu = document.createElement("yes-no")
+    debugger
+    this.openUserAccount.style.display = "none"
+    this.logOutButton.style.display = "none"
+    this.openRegPage.style.display = "inline"
+    this.openLogPage.style.display = "inline"
+    this.openLogName.style.display = "none"
+    document.cookie =`userId= ; hash= `
+    main.currentUser = null
+}.bind(main)
+
+main.openUserAccount.onclick = function (event) {
+    const userAccount = document.createElement("user-cabinet")
+    userAccount.setAttribute("markup", "components/myCabinet/myCabinet.html")
     document.body.style.overflow = 'hidden'
-    this.appendChild(yesNoMenu)
+    this.appendChild(userAccount)
 }.bind(main)
 
 main.openRegPage.onclick = function (event) {

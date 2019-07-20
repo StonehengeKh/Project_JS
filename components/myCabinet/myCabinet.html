@@ -1,34 +1,37 @@
+<head>
+    <link rel="stylesheet" href="myCabinet.css">
+</head>
+
 <section class="cabinet">
     <div class="my-cabinet">
         <h3>My cabinet</h3>
+        <h5 class="error-cab" id="error-cab"></h5>
+        <img src="" id="now-avatar" alt="Your avatar now">
+        <div class="form-group">
+            <label class="control-label img-ava" for="change-avatar">Select avatar</label>
+            <input type="file" id="change-avatar" class="form-control change-avatar">
+        </div>
+        <h4 class="now-name" id="now-name"></h4>
         <div class="form-group">
             <label class="control-label" for="change-name">Name</label>
             <input type="text" name="name" id="change-name" class="form-control">
-            <button type="button" id="change-name-button">Save</button>
+            <button type="button" id="change-name-button">Save new name</button>
         </div>
+        <h4 class="now-email" id="now-email"></h4>
         <div class="form-group">
             <label class="control-label" for="change-email">Email</label>
             <input type="text" name="email" id="change-email" class="form-control">
-            <button type="button" id="change-email-button">Save</button>
+            <button type="button" id="change-email-button">Save new email</button>
         </div>
         <div class="form-group">
             <label class="control-label" for="input-old-password">Old password</label>
             <input type="password" id="input-old-password" class="form-control">
-            <label class="control-label" for="input-password1">New password</label>
-            <input type="password" id="input-password1" class="form-control">
-            <label class="control-label" for="input-password2">Confirm new password</label>
-            <input type="password" id="input-password2" class="form-control">
-            <button type="button" id="change-password-button">Save</button>
+            <label class="control-label" for="input-new-password1">New password</label>
+            <input type="password" id="input-new-password1" class="form-control">
+            <label class="control-label" for="input-new-password2">Confirm new password</label>
+            <input type="password" id="input-new-password2" class="form-control">
+            <button type="button" id="change-password-button">Save new password</button>
         </div>
-        <div class="form-group">
-            <label class="control-label" for="input-change-phone">Phone number</label>
-            <input type="text" name="phone" id="input-change-phone" class="form-control">
-            <button type="button" id="change-phone-button">Save</button>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="change-avatar">Select avatar</label>
-            <input type="file" id="change-avatar" class="form-control">
-            <button type="button" id="change-avatar-button">Save</button>
-        </div>
+        <button class="del-user" id="del-user">Delete user</button>
     </div>
 </section>
