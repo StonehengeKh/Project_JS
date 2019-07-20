@@ -70,12 +70,13 @@ header {
     margin-top: -12px;
 }
 
-.navigation span {
+.navigation li {
     color: black;
     font-weight: bold;
+    cursor: pointer;
 }
 
-.navigation a:hover {
+.navigation li:hover {
     color: orangered;
 }
 

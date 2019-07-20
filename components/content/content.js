@@ -7,7 +7,6 @@ class ContentPage extends HTMLElement {
     }
 
     connectedCallback() {
-        // this.getData()
     }
 
     static get observedAttributes() {

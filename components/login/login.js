@@ -11,24 +11,26 @@ class LogPage extends HTMLElement {
     attributeChangedCallback(attrName, oldVal, newVal) {
         let html = this.shadow
         let getValues = this.getData.bind(this)
+        let getDatas = this.getData.bind(this)
         async function setAttrs(newVal, html, getValues) {
             let resp =  await  Promise.all([
                 fetch(newVal)
                     .then(response => response.text()),
-                fetch(`components/registration/registration.css`)
+                fetch(`components/login/login.css`)
                     .then(response => response.text())
             ])
             html.innerHTML = await resp[0];
             html.appendChild(document.createElement("style")).textContent = await resp[1];
             await getValues()
+            await getDatas()
         }
         setAttrs(newVal, html, getValues)
     }
     getData () {
-        this.userEmail = this.shadow.getElementById("#input-email")
-        this.userPassword = this.shadow.getElementById("#input-password")
-        this.button = this.shadow.getElementById("#log-button")
-        this.errorSpace = this.shadow.getElementById("#err")
+        this.userEmail = this.shadow.querySelector("#input-email")
+        this.userPassword = this.shadow.querySelector("#input-password")
+        this.button = this.shadow.querySelector("#log-button")
+        this.errorSpace = this.shadow.querySelector("#err")
         this.button.disabled = true
 
         this.userPassword.onchange = function (event) {
@@ -46,7 +48,7 @@ class LogPage extends HTMLElement {
             }
         }.bind(this)
 
-        this.shadow.getElementById("#exit-block").onclick = function(event) {
+        this.shadow.querySelector("#exit-block").onclick = function(event) {
             this.remove()
             document.body.style.overflow = 'auto'
         }.bind(this)

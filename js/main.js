@@ -54,7 +54,6 @@ main.getCookie = function() {
 main.getCookie()
 
 main.logOutButton.onclick = function (event) {
-    debugger
     this.openUserAccount.style.display = "none"
     this.logOutButton.style.display = "none"
     this.openRegPage.style.display = "inline"
