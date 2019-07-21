@@ -1,79 +1,10 @@
-.white-field {
-    position: relative;
-    background-color: white;
-    width: 100%;
-    height: 700px;
+* {
+    margin: 0;
+    padding: 0;
 }
 
-.search-field {
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border: 2px solid grey;
-    top: -150px;
-    left: 50%;
-    margin-left: -150px;
-}
-
-.green-field {
+.green-field-about-us {
     background-color: #43a06d;
     height: 800px;
-}
-
-.map {
-    position: relative;
-}
-
-.add-data {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    width: 400px;
-    height: 360px;
-    border: 1px solid grey;
-    border-radius: 50%;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 40px;
-    margin-left: -200px;
-}
-
-.name-add-data {
-    width: 250px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    padding: 8px;
-    color: grey;
-}
-
-.add-data-btn {
-    background-color: #43a06d;
-    width: 70px;
-    height: 70px;
-    color: white;
-    border: 1px solid #43a06d;
-    border-radius: 50%;
-    font-size: 50px;
-    font-weight: bold;
-    transform: scaleX(-1) rotate(-45deg);
-    cursor: pointer;
-    margin-top: 15px;
-}
-
-
-.message-data {
-    resize: none;
-}
-
-/*white-field*/
-
-.white-field {
-    width: 300px;
-    height: 300px;
-    border: 1px solid grey;
-    background-color: white;
 }
 

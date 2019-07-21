@@ -16,6 +16,7 @@ class UserCabinet extends HTMLElement {
     attributeChangedCallback(attrName, oldVal, newVal) {
         let html = this.shadow
         let getValues = this.getData.bind(this)
+        let getDatas = this.getData.bind(this)
         async function setAttrs(newVal, html, getValues) {
             let resp =  await Promise.all([
                 fetch(newVal)
@@ -26,6 +27,7 @@ class UserCabinet extends HTMLElement {
             html.innerHTML = await resp[0];
             html.appendChild(document.createElement("style")).textContent = await resp[1];
             await getValues()
+            await getDatas()
         }
         setAttrs(newVal, html, getValues)
     }
@@ -92,7 +94,7 @@ class UserCabinet extends HTMLElement {
             }
         }.bind(this)
 
-        this.userName.onchange = function (event) {
+        this.currentName.onchange = function (event) {
             event.target.valid = event.target.value.length > 2
 
             if (event.target.valid) {
@@ -228,12 +230,18 @@ class UserCabinet extends HTMLElement {
         }.bind(this)
 
         this.deleteUser.onclick = function (event) {
+            alert("You want delete?")
             fetch(`https://fea13-alex.glitch.me/users/${main.currentUser.id}`, {
                 method: "DELETE",
             }).then(
-                response => response.json())
-                .then(response => {
-                    console.log(response)
+                () => {
+                    main.openUserAccount.style.display = "none"
+                    main.logOutButton.style.display = "none"
+                    main.openRegPage.style.display = "inline"
+                    main.openLogPage.style.display = "inline"
+                    main.openLogName.style.display = "none"
+                    document.cookie =`userId= ; hash= `
+                    main.currentUser = null
                 }
             )
         }.bind(this)

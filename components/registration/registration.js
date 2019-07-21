@@ -95,7 +95,7 @@ class RegisterPage extends HTMLElement {
 
         this.userPhoto.onchange = function ( event ) {
             let reader = new FileReader
-            this.preview.style.display = "none"
+//            this.preview.style.display = "none"
             let photo = event.target.files[0]
             reader.readAsDataURL(photo)
             if ( photo.type.indexOf( "image" ) === -1 ) {
@@ -170,17 +170,16 @@ class RegisterPage extends HTMLElement {
                 })
 
             this.remove()
-            document.body.style.overflow = 'auto'
-            document.getElementById("sign-up").style.display = "none"
-            document.getElementById("sign-in").style.display = "none"
-            document.getElementById("log-out").style.display = "inline"
-            document.getElementById("head-user-name").style.display = "inline"
-            document.getElementById("head-user-name").innerText = `${response.name}`
+            main.openRegPage.style.display = "none"
+            main.openLogPage.style.display = "none"
+            main.logOutButton.style.display = "inline"
+            main.nameUserButton.style.display = "inline"
+
+            // main.nameUserButton.innerHTML = main.currentUser.name
         }.bind(this)
 
         this.shadow.querySelector("#exit-block").onclick = function(event) {
             this.remove()
-            document.body.style.overflow = 'auto'
         }.bind(this)
 
     }

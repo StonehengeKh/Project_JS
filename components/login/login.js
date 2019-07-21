@@ -42,7 +42,7 @@ class LogPage extends HTMLElement {
         }.bind(this)
 
         this.userEmail.onchange = function (event) {
-            event.target.valid = event.target.value.length >= 5 && event.target.value.indexOf("@") > 0
+            event.target.valid = event.target.value.length >= 3 && event.target.value.indexOf("@") > 0
             if (this.userPassword.valid && this.userEmail.valid){
                 this.button.disabled = false
             }
@@ -50,7 +50,6 @@ class LogPage extends HTMLElement {
 
         this.shadow.querySelector("#exit-block").onclick = function(event) {
             this.remove()
-            document.body.style.overflow = 'auto'
         }.bind(this)
         this.button.onclick = function (event) {
             let email = this.userEmail.value
@@ -64,18 +63,21 @@ class LogPage extends HTMLElement {
                     return user.email === email})
                 if (currentUser) {
                     if(currentUser.userPassword === `hash=${pass}`) {
+                        debugger
                         document.cookie =`userId=${currentUser.id}`
                         err.innerHTML = ""
-                        document.getElementById("sing-up").style.display = "none"
-                        document.getElementById("sing-in").style.display = "none"
-                        document.getElementById("log-out").style.display = "inline"
-                        document.getElementById("head-user-name").style.display = "inline"
-                        document.getElementById("head-user-name").innerText = `${response.name}`
+                        main.openRegPage.style.display = "none"
+                        main.openLogPage.style.display = "none"
+                        main.logOutButton.style.display = "inline"
+                        main.openUserAccount.style.display = "inline"
+                        main.nameUserButton.style.display = "inline"
+                        console.log(main.currentUser)
                         let event = new Event("new-user")
                         event.userData = currentUser
                         main.dispatchEvent(event)
                         window.remove()
-                        document.body.style.overflow = 'auto'
+                        main.nameUserButton.innerHTML = main.currentUser.name
+
                     } else {
                         err.innerHTML = "Wrong password"
                     }

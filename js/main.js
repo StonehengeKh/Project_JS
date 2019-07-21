@@ -1,6 +1,6 @@
 // https://fea13-alex.glitch.me/users
 // https://fea13-alex.glitch.me/content
-// https://fea13-alex.glitch.me/informa
+// https://fea13-alex.glitch.me/information
 
 
 const main = document.getElementsByTagName("main")[0]
@@ -10,6 +10,7 @@ main.openLogName = document.getElementById("head-user-name")
 main.logOutButton = document.getElementById("sign-out")
 main.openUserAccount = document.getElementById("cabinet")
 main.openPageContent = document.getElementById("page-content")
+main.nameUserButton = document.getElementById("head-user-name")
 
 
 main.getCookie = function() {
@@ -31,6 +32,7 @@ main.getCookie = function() {
             if (`hash=${main.cookieObj.hash}` === user.userPassword){
                 main.currentUser = {
                     name: user.name,
+                    email: user.email,
                     id: user.id,
                     photo: user.avatar
                 }
@@ -40,6 +42,7 @@ main.getCookie = function() {
                 main.openRegPage.style.display = "none"
                 main.logOutButton.style.display = "inline"
                 main.openLogName.style.display = "inline"
+                main.openUserAccount.innerHTML = main.currentUser.name
             }
         }
         getUser()
@@ -64,23 +67,28 @@ main.logOutButton.onclick = function (event) {
 }.bind(main)
 
 main.openUserAccount.onclick = function (event) {
+    main.innerHTML = ""
     const userAccount = document.createElement("user-cabinet")
     userAccount.setAttribute("markup", "components/myCabinet/myCabinet.html")
-    document.body.style.overflow = 'hidden'
+    this.appendChild(userAccount)
+}.bind(main)
+
+main.nameUserButton.onclick = function (event) {
+    main.innerHTML = ""
+    const userAccount = document.createElement("user-cabinet")
+    userAccount.setAttribute("markup", "components/myCabinet/myCabinet.html")
     this.appendChild(userAccount)
 }.bind(main)
 
 main.openRegPage.onclick = function (event) {
     const regPage = document.createElement("register-page")
     regPage.setAttribute("markup", "components/registration/registration.html")
-    document.body.style.overflow = 'hidden'
     this.appendChild(regPage)
 }.bind(main)
 
 main.openLogPage.onclick = function (event) {
     const logPage = document.createElement("log-page")
     logPage.setAttribute("markup", "components/login/login.html")
-    document.body.style.overflow = 'hidden'
     this.appendChild(logPage)
 }.bind(main)
 
@@ -99,6 +107,7 @@ main.addEventListener("new-user", createCurrentUser)
 function createCurrentUser (event) {
     main.currentUser = {
         name: event.userData.name,
+        email: event.userData.email,
         id: event.userData.id,
         photo: event.userData.avatar
     }

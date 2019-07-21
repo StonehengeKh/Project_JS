@@ -33,6 +33,20 @@ class ContentPage extends HTMLElement {
     }
 
     getData () {
+        let postField = this.shadow.querySelector("#post-field")
+        async function getItems(postField) {
+            let items = await (await fetch("https://fea13-alex.glitch.me/content")).json()
+            items.forEach(element => {
+                let item = document.createElement("data-card")
+                item.setAttribute("markup", "components/cards/cards.html")
+                item.setAttribute("title", element.title)
+                item.setAttribute("message", element.text)
+                item.setAttribute("picture", element.photo)
+                postField.appendChild(item)
+            });
+        }
+        getItems(postField)
+
         this.titleCards = this.shadow.querySelector("#title-add-data")
         this.textCards = this.shadow.querySelector("#name-add-text")
         this.textCards.disabled = true
@@ -40,9 +54,16 @@ class ContentPage extends HTMLElement {
         this.photoCards.disabled = true
         this.btnCards = this.shadow.querySelector("#add-data-btn")
         this.errorSpace = this.shadow.querySelector("#error")
+        this.previewTitle = this.shadow.querySelector("#title-card")
+        this.previewText = this.shadow.querySelector("#text-card")
+        this.previewPhoto = this.shadow.querySelector("#image-post")
+        // this.previewBlock = this.shadow.querySelector("#card")
+        // this.previewBlock.style.display = "none"
+
 
         this.titleCards.onchange = function (event) {
             event.target.valid = event.target.value.length > 2
+            this.previewTitle.innerHTML = ""
             if(event.target.valid) {
                 this.errorSpace.innerHTML = ""
                 this.textCards.disabled = false
@@ -54,11 +75,12 @@ class ContentPage extends HTMLElement {
 
         this.textCards.onchange = function ( event ) {
             event.target.valid = event.target.value.length > 10
+            this.previewText.innerHTML = event.target.value
             if(event.target.valid) {
                 this.errorSpace.innerHTML = ""
                 this.photoCards.disabled = false
             } else {
-                this.errorSpace.innerHTML = "Enter correct title"
+                this.errorSpace.innerHTML = "Enter correct message"
                 this.photoCards.disabled = true
         }}.bind(this)
 
@@ -76,12 +98,12 @@ class ContentPage extends HTMLElement {
             }
             if (photo.type.indexOf ( "image" ) === 0 && photo.size <= 500000 ) {
                 reader.onload = function (ev) {
-                    this.preview.src = ev.target.result
+                    this.previewPhoto.src = ev.target.result
                 }.bind(this)
                 this.errorSpace.innerHTML = ""
                 let picture = URL.createObjectURL ( photo )
-                this.preview.style.display = "block"
-                this.preview.src = btoa(picture)
+                this.previewPhoto.style.display = "block"
+                this.previewPhoto.src = btoa(picture)
                 this.photoCards.valid = true
                 if(this.photoCards.valid && this.titleCards.valid) {
                     this.button.disabled = false
@@ -89,6 +111,7 @@ class ContentPage extends HTMLElement {
                     this.button.disabled = true
                 }
             }
+            // this.previewBlock.style.display = "block"
         }.bind(this)
 
         this.btnCards.onclick = function (event) {

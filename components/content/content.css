@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .green-field {
     background-color: #43a06d;
     height: auto;
@@ -58,7 +63,7 @@
     border: 1px solid grey;
     cursor: pointer;
     margin-top: 10px;
-    padding: 10px 160px 10px 5px;
+    padding: 10px 165px 10px 5px;
 }
 
 .name-add-photo:hover {

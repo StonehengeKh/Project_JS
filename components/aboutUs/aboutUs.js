@@ -11,8 +11,8 @@ class AboutUsPage extends HTMLElement {
     }
 
     connectedCallback() {
-        this.setAttribute("markup", "./components/aboutUS/aboutUS.html")
-        this.setAttribute("css", "./components/aboutUS/aboutUS.css")
+        this.setAttribute("markup", "./components/aboutUS/aboutUs.html")
+        this.setAttribute("css", "./components/aboutUS/aboutUs.css")
     }
 
     attributeChangedCallback(attrName, oldVal, newVal) {

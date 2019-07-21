@@ -1,3 +1,7 @@
+.cabinet {
+    background-color: white;
+}
+
 .my-cabinet {
     display: flex;
     flex-direction: column;
@@ -36,16 +40,21 @@
     margin-bottom: 10px;
 }
 
-button {
+.btn-cab {
     padding: 5px;
     border: 1px solid #43a06d;
     border-radius: 7px;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     font-weight: bold;
 }
 
-button:hover {
+btn-cab:hover {
     background-color: #43a06d;
+    color: white;
+}
+
+.del-user {
+    margin-bottom: 40px;
 }
