@@ -3,8 +3,13 @@
     padding: 0;
 }
 
+.white-field-about-us {
+    background-color: white;
+    height: 300px;
+}
+
 .green-field-about-us {
     background-color: #43a06d;
-    height: 800px;
+    height: 500px;
 }
 

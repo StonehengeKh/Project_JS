@@ -54,9 +54,9 @@ class ContentPage extends HTMLElement {
         this.photoCards.disabled = true
         this.btnCards = this.shadow.querySelector("#add-data-btn")
         this.errorSpace = this.shadow.querySelector("#error")
-        this.previewTitle = this.shadow.querySelector("#title-card")
-        this.previewText = this.shadow.querySelector("#text-card")
-        this.previewPhoto = this.shadow.querySelector("#image-post")
+        // this.previewTitle = this.shadow.querySelector("#title-card")
+        // this.previewText = this.shadow.querySelector("#text-card")
+        // this.previewPhoto = this.shadow.querySelector("#image-post")
 
         async function loadPage() {
             let items = await (await fetch("https://fea13-alex.glitch.me/content")).json()
@@ -64,10 +64,12 @@ class ContentPage extends HTMLElement {
             items.forEach(item => {
                 let card = document.createElement("div")
                 card.className = "card"
+                card.style.border = "2px solid white"
 
                 let imgBlocks = card.appendChild(document.createElement("div"))
                 imgBlocks.className = "img-block"
                 let img = imgBlocks.appendChild(document.createElement("img"))
+                img.className = "image-post"
                 img.src = item.photo
 
                 let titleBlocks = card.appendChild(document.createElement("div"))
@@ -82,6 +84,14 @@ class ContentPage extends HTMLElement {
                 texts.className = "text-card"
                 texts.innerHTML = item.message
 
+                // let btnBlock = card.appendChild(document.createElement("div"))
+                // btnBlock.className = "btn-card"
+                // btnBlock.id = "btn-card"
+                // let btnDelete = btnBlock.appendChild(document.createElement("button"))
+                // btnDelete.className = "btn-delete"
+                // btnDelete.id = "btn-delete"
+                // btnDelete.innerText = "Delete"
+
                 postField.appendChild(card)
             })
         }
@@ -89,24 +99,24 @@ class ContentPage extends HTMLElement {
 
         this.titleCards.onchange = function (event) {
             event.target.valid = event.target.value.length > 2
-            this.previewTitle.innerHTML = event.target.value
+            // this.previewTitle.innerHTML = event.target.value
             if(event.target.valid) {
                 this.errorSpace.innerHTML = ""
                 this.textCards.disabled = false
             } else {
-                this.errorSpace.innerHTML = "Enter correct title"
+                this.errorSpace.innerHTML = "Enter more long title"
                 this.textCards.disabled = true
             }
         }.bind(this)
 
         this.textCards.onchange = function ( event ) {
             event.target.valid = event.target.value.length > 10
-            this.previewText.innerHTML = event.target.value
+            // this.previewText.innerHTML = event.target.value
             if(event.target.valid) {
                 this.errorSpace.innerHTML = ""
                 this.photoCards.disabled = false
             } else {
-                this.errorSpace.innerHTML = "Enter long message"
+                this.errorSpace.innerHTML = "Enter more long message"
                 this.photoCards.disabled = true
         }}.bind(this)
 
@@ -123,11 +133,11 @@ class ContentPage extends HTMLElement {
                 this.photoCards.valid = false
             }
             if (photo.type.indexOf ( "image" ) === 0 && photo.size <= 800000 ) {
-                reader.onload = function (ev) {
-                    this.previewPhoto.src = ev.target.result
-                }.bind(this)
+                // reader.onload = function (ev) {
+                //     this.previewPhoto.src = ev.target.result
+                // }.bind(this)
                 this.errorSpace.innerHTML = ""
-                this.previewPhoto.style.display = "block"
+                // this.previewPhoto.style.display = "block"
 
                 this.photoCards.valid = true
                 if(this.photoCards.valid && this.titleCards.valid) {
@@ -139,18 +149,21 @@ class ContentPage extends HTMLElement {
         }.bind(this)
 
         this.btnCards.onclick = function (event) {
-            fetch("https://fea13-alex.glitch.me/content", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    title: this.titleCards.value,
-                    message: this.textCards.value,
-                    photo: this.previewPhoto.src
-                })
-            }).then(
-                response => response.json())
+            if(this.photoCards.valid && this.titleCards.valid && this.textCards.valid) {
+                fetch("https://fea13-alex.glitch.me/content", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        title: this.titleCards.value,
+                        message: this.textCards.value,
+                        photo: this.previewPhoto.src
+                    })
+                }).then(
+                    response => response.json())
+            }
+
                 // .then(response => {
                 //     let card = document.createElement("div")
                 //     card.className = "card"

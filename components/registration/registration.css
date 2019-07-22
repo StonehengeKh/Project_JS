@@ -9,7 +9,7 @@
     left: 50%;
     margin-left: -250px;
     width: 500px;
-    height: 400px;
+    height: 420px;
     border: 2px solid grey;
     border-radius: 12px;
     background-color: white;
@@ -76,7 +76,7 @@
     border: 1px solid #43a06d;
     border-radius: 7px;
     cursor: pointer;
-    padding: 5px 127px 5px 0;
+    padding: 5px 110px 2px 0;
 }
 
 .btn-add:hover {
