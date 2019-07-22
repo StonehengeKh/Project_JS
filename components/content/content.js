@@ -16,7 +16,6 @@ class ContentPage extends HTMLElement {
     attributeChangedCallback(attrName, oldVal, newVal) {
         let html = this.shadow
         let getValues = this.getData.bind(this)
-        let getDatas = this.getData.bind(this)
         async function setAttrs(newVal, html, getValues) {
             let resp =  await Promise.all([
                 fetch(newVal)
@@ -27,7 +26,6 @@ class ContentPage extends HTMLElement {
             html.innerHTML = await resp[0];
             html.appendChild(document.createElement("style")).textContent = await resp[1];
             await getValues()
-            await getDatas()
         }
         setAttrs(newVal, html, getValues)
     }
@@ -54,9 +52,9 @@ class ContentPage extends HTMLElement {
         this.photoCards.disabled = true
         this.btnCards = this.shadow.querySelector("#add-data-btn")
         this.errorSpace = this.shadow.querySelector("#error")
-        // this.previewTitle = this.shadow.querySelector("#title-card")
-        // this.previewText = this.shadow.querySelector("#text-card")
-        // this.previewPhoto = this.shadow.querySelector("#image-post")
+        this.previewTitle = this.shadow.querySelector("#title-card")
+        this.previewText = this.shadow.querySelector("#text-card")
+        this.previewPhoto = this.shadow.querySelector("#image-post")
 
         async function loadPage() {
             let items = await (await fetch("https://fea13-alex.glitch.me/content")).json()
@@ -70,6 +68,7 @@ class ContentPage extends HTMLElement {
                 imgBlocks.className = "img-block"
                 let img = imgBlocks.appendChild(document.createElement("img"))
                 img.className = "image-post"
+                img.id = "image-post"
                 img.src = item.photo
 
                 let titleBlocks = card.appendChild(document.createElement("div"))
@@ -99,7 +98,7 @@ class ContentPage extends HTMLElement {
 
         this.titleCards.onchange = function (event) {
             event.target.valid = event.target.value.length > 2
-            // this.previewTitle.innerHTML = event.target.value
+            this.previewTitle.innerHTML = event.target.value
             if(event.target.valid) {
                 this.errorSpace.innerHTML = ""
                 this.textCards.disabled = false
@@ -111,7 +110,7 @@ class ContentPage extends HTMLElement {
 
         this.textCards.onchange = function ( event ) {
             event.target.valid = event.target.value.length > 10
-            // this.previewText.innerHTML = event.target.value
+            this.previewText.innerHTML = event.target.value
             if(event.target.valid) {
                 this.errorSpace.innerHTML = ""
                 this.photoCards.disabled = false
@@ -133,9 +132,9 @@ class ContentPage extends HTMLElement {
                 this.photoCards.valid = false
             }
             if (photo.type.indexOf ( "image" ) === 0 && photo.size <= 800000 ) {
-                // reader.onload = function (ev) {
-                //     this.previewPhoto.src = ev.target.result
-                // }.bind(this)
+                reader.onload = function (ev) {
+                    this.previewPhoto.src = ev.target.result
+                }.bind(this)
                 this.errorSpace.innerHTML = ""
                 // this.previewPhoto.style.display = "block"
 
@@ -149,20 +148,18 @@ class ContentPage extends HTMLElement {
         }.bind(this)
 
         this.btnCards.onclick = function (event) {
-            if(this.photoCards.valid && this.titleCards.valid && this.textCards.valid) {
-                fetch("https://fea13-alex.glitch.me/content", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        title: this.titleCards.value,
-                        message: this.textCards.value,
-                        photo: this.previewPhoto.src
-                    })
-                }).then(
-                    response => response.json())
-            }
+            fetch("https://fea13-alex.glitch.me/content", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    title: this.titleCards.value,
+                    message: this.textCards.value,
+                    photo: this.previewPhoto.src
+                })
+            }).then(
+                response => response.json())
 
                 // .then(response => {
                 //     let card = document.createElement("div")

@@ -81,12 +81,15 @@ main.nameUserButton.onclick = function (event) {
 }.bind(main)
 
 main.openRegPage.onclick = function (event) {
+    // main.innerHTML = ""
     const regPage = document.createElement("register-page")
     regPage.setAttribute("markup", "components/registration/registration.html")
     this.appendChild(regPage)
+
 }.bind(main)
 
 main.openLogPage.onclick = function (event) {
+    // main.innerHTML = ""
     const logPage = document.createElement("log-page")
     logPage.setAttribute("markup", "components/login/login.html")
     this.appendChild(logPage)
