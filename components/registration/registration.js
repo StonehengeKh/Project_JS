@@ -95,7 +95,6 @@ class RegisterPage extends HTMLElement {
 
         this.userPhoto.onchange = function ( event ) {
             let reader = new FileReader
-//            this.preview.style.display = "none"
             let photo = event.target.files[0]
             reader.readAsDataURL(photo)
             if ( photo.type.indexOf( "image" ) === -1 ) {

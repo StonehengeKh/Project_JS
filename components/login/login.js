@@ -63,7 +63,6 @@ class LogPage extends HTMLElement {
                     return user.email === email})
                 if (currentUser) {
                     if(currentUser.userPassword === `hash=${pass}`) {
-                        debugger
                         document.cookie =`userId=${currentUser.id}`
                         err.innerHTML = ""
                         main.openRegPage.style.display = "none"

@@ -40,7 +40,7 @@ class ContentPage extends HTMLElement {
                 let item = document.createElement("data-card")
                 item.setAttribute("markup", "components/cards/cards.html")
                 item.setAttribute("title", element.title)
-                item.setAttribute("message", element.text)
+                item.setAttribute("message", element.message)
                 item.setAttribute("picture", element.photo)
                 postField.appendChild(item)
             });
@@ -57,13 +57,39 @@ class ContentPage extends HTMLElement {
         this.previewTitle = this.shadow.querySelector("#title-card")
         this.previewText = this.shadow.querySelector("#text-card")
         this.previewPhoto = this.shadow.querySelector("#image-post")
-        // this.previewBlock = this.shadow.querySelector("#card")
-        // this.previewBlock.style.display = "none"
 
+        async function loadPage() {
+            let items = await (await fetch("https://fea13-alex.glitch.me/content")).json()
+
+            items.forEach(item => {
+                let card = document.createElement("div")
+                card.className = "card"
+
+                let imgBlocks = card.appendChild(document.createElement("div"))
+                imgBlocks.className = "img-block"
+                let img = imgBlocks.appendChild(document.createElement("img"))
+                img.src = item.photo
+
+                let titleBlocks = card.appendChild(document.createElement("div"))
+                titleBlocks.className = "title"
+                let titles = titleBlocks.appendChild(document.createElement("h4"))
+                titles.className = "title-card"
+                titles.innerHTML = item.title
+
+                let textBlocks = card.appendChild(document.createElement("div"))
+                textBlocks.className = "title"
+                let texts = textBlocks.appendChild(document.createElement("span"))
+                texts.className = "text-card"
+                texts.innerHTML = item.message
+
+                postField.appendChild(card)
+            })
+        }
+        loadPage()
 
         this.titleCards.onchange = function (event) {
             event.target.valid = event.target.value.length > 2
-            this.previewTitle.innerHTML = ""
+            this.previewTitle.innerHTML = event.target.value
             if(event.target.valid) {
                 this.errorSpace.innerHTML = ""
                 this.textCards.disabled = false
@@ -80,7 +106,7 @@ class ContentPage extends HTMLElement {
                 this.errorSpace.innerHTML = ""
                 this.photoCards.disabled = false
             } else {
-                this.errorSpace.innerHTML = "Enter correct message"
+                this.errorSpace.innerHTML = "Enter long message"
                 this.photoCards.disabled = true
         }}.bind(this)
 
@@ -92,26 +118,24 @@ class ContentPage extends HTMLElement {
                 this.errorSpace.innerHTML = "Wrong type of file"
                 this.photoCards.valid = false
             }
-            if (photo.type.indexOf ( "image" ) === 0 && photo.size > 500000 ) {
+            if (photo.type.indexOf ( "image" ) === 0 && photo.size > 800000 ) {
                 this.errorSpace.innerHTML = "Image size is too big"
                 this.photoCards.valid = false
             }
-            if (photo.type.indexOf ( "image" ) === 0 && photo.size <= 500000 ) {
+            if (photo.type.indexOf ( "image" ) === 0 && photo.size <= 800000 ) {
                 reader.onload = function (ev) {
                     this.previewPhoto.src = ev.target.result
                 }.bind(this)
                 this.errorSpace.innerHTML = ""
-                let picture = URL.createObjectURL ( photo )
                 this.previewPhoto.style.display = "block"
-                this.previewPhoto.src = btoa(picture)
+
                 this.photoCards.valid = true
                 if(this.photoCards.valid && this.titleCards.valid) {
-                    this.button.disabled = false
+                    this.btnCards.disabled = false
                 } else {
-                    this.button.disabled = true
+                    this.btnCards.disabled = true
                 }
             }
-            // this.previewBlock.style.display = "block"
         }.bind(this)
 
         this.btnCards.onclick = function (event) {
@@ -122,20 +146,34 @@ class ContentPage extends HTMLElement {
                 },
                 body: JSON.stringify({
                     title: this.titleCards.value,
-                    text: this.textCards.value,
-                    photo: this.photoCards.src
+                    message: this.textCards.value,
+                    photo: this.previewPhoto.src
                 })
             }).then(
                 response => response.json())
-                .then(response => {
-                    document.cookie =`userId=${response.id}; hash=${response.userPassword}`
-                    let event = new Event("new-user")
-                    event.userData = response
-                    main.dispatchEvent(event)
-                })
-
-            this.remove()
-            document.body.style.overflow = 'auto'
+                // .then(response => {
+                //     let card = document.createElement("div")
+                //     card.className = "card"
+                //
+                //     let imgBlocks = card.appendChild(document.createElement("div"))
+                //     imgBlocks.className = "img-block"
+                //     let img = imgBlocks.appendChild(document.createElement("img"))
+                //     img.src = response.photo
+                //
+                //     let titleBlocks = card.appendChild(document.createElement("div"))
+                //     titleBlocks.className = "title"
+                //     let titles = titleBlocks.appendChild(document.createElement("h4"))
+                //     titles.className = "title-card"
+                //     titles.innerHTML = response.title
+                //
+                //     let textBlocks = card.appendChild(document.createElement("div"))
+                //     textBlocks.className = "title"
+                //     let texts = textBlocks.appendChild(document.createElement("span"))
+                //     texts.className = "text-card"
+                //     texts.innerHTML = response.message
+                //
+                //     postField.appendChild(card)
+                // })
         }.bind(this)
     }
 }
